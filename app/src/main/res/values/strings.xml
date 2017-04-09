@@ -11,4 +11,9 @@
 
     <string name="rating_name_hing">Имя</string>
 
+    <string name="button_start">Начать игру</string>
+
+    <string name="message_empty">Нажмите, чтобы загрузить задания.</string>
+    <string name="message_downloading">Подождите, пока задания загрузятся.</string>
+
 </resources>
