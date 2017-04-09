@@ -24,6 +24,8 @@ import by.vshkl.android.imagequiz.utils.PrefUtils;
 
 public class InitFragment extends MvpAppCompatFragment implements InitView, OnClickListener {
 
+    private static final String KEY_CHANGE_PLAYER = "OffersFragment.KEY_CHANGE_PLAYER";
+
     @InjectPresenter InitPresenter presenter;
 
     private Toolbar tbToolbar;
@@ -34,9 +36,14 @@ public class InitFragment extends MvpAppCompatFragment implements InitView, OnCl
     private Button btnStart;
 
     private MainActivity parentActivity;
+    private boolean isChangePlayer;
 
-    public static Fragment newInstance() {
-        return new InitFragment();
+    public static Fragment newInstance(boolean isChangePlayer) {
+        Fragment fragment = new InitFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(KEY_CHANGE_PLAYER, isChangePlayer);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -45,6 +52,12 @@ public class InitFragment extends MvpAppCompatFragment implements InitView, OnCl
         if (context instanceof MainActivity) {
             this.parentActivity = (MainActivity) context;
         }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        isChangePlayer = getArguments().getBoolean(KEY_CHANGE_PLAYER, false);
     }
 
     @Nullable
@@ -67,6 +80,12 @@ public class InitFragment extends MvpAppCompatFragment implements InitView, OnCl
         btnStart.setOnClickListener(this);
 
         parentActivity.setSupportActionBar(tbToolbar);
+
+        if (isChangePlayer) {
+            presenter.showStart();
+        } else {
+            presenter.showEmpty();
+        }
     }
 
     @Override

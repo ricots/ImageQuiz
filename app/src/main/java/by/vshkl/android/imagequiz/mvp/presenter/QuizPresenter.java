@@ -36,6 +36,10 @@ public class QuizPresenter extends MvpPresenter<QuizView> {
         }
     }
 
+    public void changePlayer() {
+        getViewState().changePlayer();
+    }
+
     public void beginQuiz(String name) {
         disposable = DatabaseRepository.loadScore(name)
                 .compose(RxUtils.<Score>applySchedulers())

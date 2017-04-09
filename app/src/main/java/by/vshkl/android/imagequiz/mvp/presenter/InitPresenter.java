@@ -25,6 +25,14 @@ public class InitPresenter extends MvpPresenter<InitView> {
         }
     }
 
+    public void showEmpty() {
+        getViewState().showEmpty();
+    }
+
+    public void showStart() {
+        getViewState().showStart();
+    }
+
     public void downloadQuiz() {
         getViewState().showProgress();
         disposable = NetworkRepository.getQuizConfig()

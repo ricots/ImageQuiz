@@ -21,8 +21,8 @@ public class MainPresenter extends MvpPresenter<MainView> {
         getViewState().checkLogged();
     }
 
-    public void showInit() {
-        getViewState().showInit();
+    public void showInit(boolean isChangePlayer) {
+        getViewState().showInit(isChangePlayer);
     }
 
     public void showQuiz() {

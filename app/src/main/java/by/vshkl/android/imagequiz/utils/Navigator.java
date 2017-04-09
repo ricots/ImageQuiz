@@ -12,8 +12,8 @@ import by.vshkl.android.imagequiz.ui.fragment.RatingFragment;
 
 public class Navigator {
 
-    public static void showInit(FragmentActivity activity) {
-        replaceFragment(activity, InitFragment.newInstance(), false);
+    public static void showInit(FragmentActivity activity, boolean isChangePlayer) {
+        replaceFragment(activity, InitFragment.newInstance(isChangePlayer), false);
     }
 
     public static void showQuiz(FragmentActivity activity) {

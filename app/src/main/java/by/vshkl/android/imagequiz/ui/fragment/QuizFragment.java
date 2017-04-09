@@ -101,6 +101,9 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
             case R.id.action_rating:
                 parentActivity.getPresenter().showRating();
                 return true;
+            case R.id.action_change_player:
+                presenter.changePlayer();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -181,5 +184,12 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
         } else {
             tvGuide.setText(R.string.quiz_message_wrong);
         }
+    }
+
+    @Override
+    public void changePlayer() {
+        PrefUtils.setName(getContext(), "");
+        PrefUtils.setLogged(getContext(), false);
+        parentActivity.getPresenter().showInit(true);
     }
 }

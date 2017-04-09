@@ -6,7 +6,7 @@ public interface MainView extends MvpView {
 
     void checkLogged();
 
-    void showInit();
+    void showInit(boolean isChangePlayer);
 
     void showQuiz();
 

@@ -2,6 +2,7 @@
     <string name="app_name">Image quiz</string>
 
     <string name="menu_rating">Рейтинг</string>
+    <string name="menu_change_user">Сменить игрока</string>
 
     <string name="quiz_message_guide">Выберите лишнюю картинку</string>
     <string name="quiz_message_wrong">Неправильно!</string>

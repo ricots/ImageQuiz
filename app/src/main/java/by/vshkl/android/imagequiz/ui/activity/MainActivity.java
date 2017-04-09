@@ -34,13 +34,13 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
         if (PrefUtils.getLogged(getApplicationContext())) {
             presenter.showQuiz();
         } else {
-            presenter.showInit();
+            presenter.showInit(false);
         }
     }
 
     @Override
-    public void showInit() {
-        Navigator.showInit(MainActivity.this);
+    public void showInit(boolean isChangePlayer) {
+        Navigator.showInit(MainActivity.this, isChangePlayer);
     }
 
     @Override
