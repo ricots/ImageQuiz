@@ -15,9 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
@@ -103,6 +101,12 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     }
 
     @Override
+    public void onStop() {
+        presenter.onStop();
+        super.onStop();
+    }
+
+    @Override
     public void onDetach() {
         this.parentActivity = null;
         super.onDetach();
@@ -145,5 +149,11 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
         lp.gravity = Gravity.CENTER;
 
         glImages.setLayoutParams(lp);
+    }
+
+    @Override
+    public void showStats(int score, int life) {
+        parentActivity.getSupportActionBar().setTitle(getString(R.string.title_score, score));
+        parentActivity.getSupportActionBar().setSubtitle(getString(R.string.title_score, life));
     }
 }

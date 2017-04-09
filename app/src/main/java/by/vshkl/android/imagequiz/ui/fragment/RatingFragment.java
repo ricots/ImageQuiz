@@ -10,11 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import by.vshkl.android.imagequiz.R;
+import by.vshkl.android.imagequiz.mvp.presenter.RatingPresenter;
+import by.vshkl.android.imagequiz.mvp.view.RatingView;
 import by.vshkl.android.imagequiz.ui.activity.MainActivity;
 
-public class RatingFragment extends MvpAppCompatFragment {
+public class RatingFragment extends MvpAppCompatFragment implements RatingView {
+
+    @InjectPresenter RatingPresenter presenter;
 
     private Toolbar tbToolbar;
 
@@ -49,6 +54,12 @@ public class RatingFragment extends MvpAppCompatFragment {
         super.onViewCreated(view, savedInstanceState);
         tbToolbar = (Toolbar) view.findViewById(R.id.tb_toolbar);
         parentActivity.setSupportActionBar(tbToolbar);
+    }
+
+    @Override
+    public void onStop() {
+        presenter.onStop();
+        super.onStop();
     }
 
     @Override

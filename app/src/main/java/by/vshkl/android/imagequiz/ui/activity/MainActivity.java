@@ -23,6 +23,12 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     }
 
     @Override
+    protected void onStop() {
+        presenter.onStop();
+        super.onStop();
+    }
+
+    @Override
     public void showQuiz() {
         Navigator.showQuiz(MainActivity.this);
     }
