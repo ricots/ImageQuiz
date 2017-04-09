@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,8 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -121,13 +124,26 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
     @Override
     public void showQuizPics() {
-        Point point = new Point();
-        parentActivity.getWindowManager().getDefaultDisplay().getSize(point);
-
-        glImages.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, point.x));
         ivPic1.setImageBitmap(AssetsUtils.getBitmap(getContext(), "pic/1.1.jpg"));
         ivPic2.setImageBitmap(AssetsUtils.getBitmap(getContext(), "pic/1.2.jpg"));
         ivPic3.setImageBitmap(AssetsUtils.getBitmap(getContext(), "pic/1.3.jpg"));
         ivPic4.setImageBitmap(AssetsUtils.getBitmap(getContext(), "pic/1.4.jpg"));
+
+        Point point = new Point();
+        parentActivity.getWindowManager().getDefaultDisplay().getSize(point);
+        int screenWidth = point.x;
+        int screenHeight = point.y;
+
+        int width;  //TODO: calculate real ratio
+        if (screenWidth < screenHeight) {
+            width = point.x * 233 / 300;
+        } else {
+            width = point.x * 300 / 233;
+        }
+
+        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, width);
+        lp.gravity = Gravity.CENTER;
+
+        glImages.setLayoutParams(lp);
     }
 }
