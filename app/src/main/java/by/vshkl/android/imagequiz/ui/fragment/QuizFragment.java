@@ -1,16 +1,21 @@
 package by.vshkl.android.imagequiz.ui.fragment;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -19,12 +24,18 @@ import by.vshkl.android.imagequiz.R;
 import by.vshkl.android.imagequiz.mvp.presenter.QuizPresenter;
 import by.vshkl.android.imagequiz.mvp.view.QuizView;
 import by.vshkl.android.imagequiz.ui.activity.MainActivity;
+import by.vshkl.android.imagequiz.utils.AssetsUtils;
 
-public class QuizFragment extends MvpAppCompatFragment implements QuizView {
+public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnClickListener {
 
     @InjectPresenter QuizPresenter presenter;
 
     private Toolbar tbToolbar;
+    private GridLayout glImages;
+    private ImageView ivPic1;
+    private ImageView ivPic2;
+    private ImageView ivPic3;
+    private ImageView ivPic4;
 
     private MainActivity parentActivity;
 
@@ -56,7 +67,19 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tbToolbar = (Toolbar) view.findViewById(R.id.tb_toolbar);
+        glImages = (GridLayout) view.findViewById(R.id.gl_images);
+        ivPic1 = (ImageView) view.findViewById(R.id.iv_pic_1);
+        ivPic2 = (ImageView) view.findViewById(R.id.iv_pic_2);
+        ivPic3 = (ImageView) view.findViewById(R.id.iv_pic_3);
+        ivPic4 = (ImageView) view.findViewById(R.id.iv_pic_4);
+
+        ivPic1.setOnClickListener(this);
+        ivPic2.setOnClickListener(this);
+        ivPic3.setOnClickListener(this);
+        ivPic4.setOnClickListener(this);
+
         parentActivity.setSupportActionBar(tbToolbar);
+        presenter.showQuizPics();
     }
 
     @Override
@@ -80,5 +103,31 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView {
     public void onDetach() {
         this.parentActivity = null;
         super.onDetach();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_pic_1:
+                break;
+            case R.id.iv_pic_2:
+                break;
+            case R.id.iv_pic_3:
+                break;
+            case R.id.iv_pic_4:
+                break;
+        }
+    }
+
+    @Override
+    public void showQuizPics() {
+        Point point = new Point();
+        parentActivity.getWindowManager().getDefaultDisplay().getSize(point);
+
+        glImages.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, point.x));
+        ivPic1.setImageBitmap(AssetsUtils.getBitmap(getContext(), "pic/1.1.jpg"));
+        ivPic2.setImageBitmap(AssetsUtils.getBitmap(getContext(), "pic/1.2.jpg"));
+        ivPic3.setImageBitmap(AssetsUtils.getBitmap(getContext(), "pic/1.3.jpg"));
+        ivPic4.setImageBitmap(AssetsUtils.getBitmap(getContext(), "pic/1.4.jpg"));
     }
 }

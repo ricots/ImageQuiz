@@ -4,4 +4,5 @@ import com.arellomobile.mvp.MvpView;
 
 public interface QuizView extends MvpView {
 
+    void showQuizPics();
 }

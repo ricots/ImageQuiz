@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -24,5 +25,68 @@
         android:text="@string/quiz_message_guide"
         android:textSize="20sp"
         />
+
+    <android.support.v7.widget.GridLayout
+        android:id="@+id/gl_images"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:columnCount="2"
+        app:orientation="horizontal"
+        app:rowCount="2"
+        >
+
+        <ImageView
+            android:id="@+id/iv_pic_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            app:layout_column="0"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            app:layout_row="0"
+            app:layout_rowWeight="1"
+            tools:src="@mipmap/ic_launcher"
+            />
+
+        <ImageView
+            android:id="@+id/iv_pic_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            app:layout_column="1"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            app:layout_row="0"
+            app:layout_rowWeight="1"
+            tools:src="@mipmap/ic_launcher"
+            />
+
+        <ImageView
+            android:id="@+id/iv_pic_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            app:layout_column="0"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            app:layout_row="1"
+            app:layout_rowWeight="1"
+            tools:src="@mipmap/ic_launcher"
+            />
+
+        <ImageView
+            android:id="@+id/iv_pic_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            app:layout_column="1"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            app:layout_row="1"
+            app:layout_rowWeight="1"
+            tools:src="@mipmap/ic_launcher"
+            />
+
+    </android.support.v7.widget.GridLayout>
 
 </LinearLayout>

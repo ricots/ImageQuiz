@@ -8,4 +8,7 @@ import by.vshkl.android.imagequiz.mvp.view.QuizView;
 @InjectViewState
 public class QuizPresenter extends MvpPresenter<QuizView> {
 
+    public void showQuizPics() {
+        getViewState().showQuizPics();
+    }
 }
