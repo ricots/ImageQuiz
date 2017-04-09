@@ -7,7 +7,7 @@ import java.util.List;
 import by.vshkl.android.imagequiz.database.DatabaseRepository;
 import by.vshkl.android.imagequiz.mvp.view.InitView;
 import by.vshkl.android.imagequiz.network.NetworkRepository;
-import by.vshkl.android.imagequiz.network.Quiz;
+import by.vshkl.android.imagequiz.network.model.Quiz;
 import by.vshkl.android.imagequiz.utils.RxUtils;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;

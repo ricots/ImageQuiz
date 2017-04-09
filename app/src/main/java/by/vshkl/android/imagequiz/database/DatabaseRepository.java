@@ -1,7 +1,11 @@
 package by.vshkl.android.imagequiz.database;
 
+import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.OrderBy;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
+import com.raizlabs.android.dbflow.structure.database.transaction.ITransaction;
+import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 
 import java.util.Collections;
 import java.util.List;
@@ -9,12 +13,13 @@ import java.util.List;
 import by.vshkl.android.imagequiz.database.entity.QuizItemEntity;
 import by.vshkl.android.imagequiz.database.entity.ScoreEntity;
 import by.vshkl.android.imagequiz.database.entity.ScoreEntity_Table;
-import by.vshkl.android.imagequiz.database.mapper.QuizItemEntityMapper;
-import by.vshkl.android.imagequiz.database.mapper.ScoreEntityMapper;
+import by.vshkl.android.imagequiz.database.mapper.QuizMapper;
+import by.vshkl.android.imagequiz.mvp.mapper.QuizItemEntityMapper;
+import by.vshkl.android.imagequiz.mvp.mapper.ScoreEntityMapper;
 import by.vshkl.android.imagequiz.database.mapper.ScoreMapper;
 import by.vshkl.android.imagequiz.mvp.model.QuizItem;
 import by.vshkl.android.imagequiz.mvp.model.Score;
-import by.vshkl.android.imagequiz.network.Quiz;
+import by.vshkl.android.imagequiz.network.model.Quiz;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -24,16 +29,25 @@ public class DatabaseRepository {
     public static Observable<Boolean> saveQuiz(final List<Quiz> quizs) {
         return Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
-            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
-                boolean result = true;
-                for (Quiz quiz : quizs) {
-                    QuizItemEntity quizItemEntity = new QuizItemEntity();
-                    quizItemEntity.setId(quiz.getId());
-                    quizItemEntity.setCorrect(quiz.getCorrect());
-                    quizItemEntity.setCorrectDescription(quiz.getCorrectDescription());
-                    result = result && quizItemEntity.save();
-                }
-                emitter.onNext(result);
+            public void subscribe(final ObservableEmitter<Boolean> emitter) throws Exception {
+                FlowManager.getDatabase(AppDatabase.class).beginTransactionAsync(new ITransaction() {
+                    @Override
+                    public void execute(DatabaseWrapper databaseWrapper) {
+                        for (Quiz quiz : quizs) {
+                            QuizMapper.transform(quiz).save(databaseWrapper);
+                        }
+                    }
+                }).success(new Transaction.Success() {
+                    @Override
+                    public void onSuccess(Transaction transaction) {
+                        emitter.onNext(true);
+                    }
+                }).error(new Transaction.Error() {
+                    @Override
+                    public void onError(Transaction transaction, Throwable error) {
+                        emitter.onNext(false);
+                    }
+                });
             }
         });
     }

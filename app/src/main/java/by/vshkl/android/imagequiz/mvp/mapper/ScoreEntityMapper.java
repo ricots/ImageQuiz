@@ -1,4 +1,4 @@
-package by.vshkl.android.imagequiz.database.mapper;
+package by.vshkl.android.imagequiz.mvp.mapper;
 
 import java.util.ArrayList;
 import java.util.Collections;

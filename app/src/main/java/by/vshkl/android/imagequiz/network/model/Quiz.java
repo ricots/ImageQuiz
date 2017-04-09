@@ -1,4 +1,4 @@
-package by.vshkl.android.imagequiz.network;
+package by.vshkl.android.imagequiz.network.model;
 
 public class Quiz {
 
