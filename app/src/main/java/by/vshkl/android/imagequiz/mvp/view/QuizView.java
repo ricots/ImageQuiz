@@ -10,7 +10,7 @@ public interface QuizView extends MvpView {
 
     void showStats(int score, int life);
 
-    void showIsCorrect(boolean isCorrect);
+    void showIsCorrect(boolean isCorrect, int picId);
 
     void changePlayer();
 

@@ -5,6 +5,7 @@ import com.arellomobile.mvp.InjectViewState;
 import java.util.Collections;
 import java.util.List;
 
+import by.vshkl.android.imagequiz.R;
 import by.vshkl.android.imagequiz.database.DatabaseRepository;
 import by.vshkl.android.imagequiz.mvp.model.QuizItem;
 import by.vshkl.android.imagequiz.mvp.model.Score;
@@ -57,13 +58,30 @@ public class QuizPresenter extends BasePresenter<QuizView> {
         getViewState().showQuiz(quizItems.get(currentQuiz));
     }
 
-    public void checkAnswer(int picNumber) {
+    public void checkAnswer(int picId) {
+        int picNumber = 0;
+
+        switch (picId) {
+            case R.id.iv_pic_1:
+                picNumber = 1;
+                break;
+            case R.id.iv_pic_2:
+                picNumber = 2;
+                break;
+            case R.id.iv_pic_3:
+                picNumber = 3;
+                break;
+            case R.id.iv_pic_4:
+                picNumber = 4;
+                break;
+        }
+
         if (quizItems.get(currentQuiz).getCorrect() == picNumber) {
             scoreUp();
-            getViewState().showIsCorrect(true);
+            getViewState().showIsCorrect(true, picId);
         } else {
             scoreDown();
-            getViewState().showIsCorrect(false);
+            getViewState().showIsCorrect(false, picId);
         }
         if (score.getLife() > 0) {
             getViewState().showStats(score.getScore(), score.getLife());

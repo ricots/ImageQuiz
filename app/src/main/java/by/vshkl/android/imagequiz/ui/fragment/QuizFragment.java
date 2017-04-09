@@ -132,20 +132,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_pic_1:
-                presenter.checkAnswer(1);
-                break;
-            case R.id.iv_pic_2:
-                presenter.checkAnswer(2);
-                break;
-            case R.id.iv_pic_3:
-                presenter.checkAnswer(3);
-                break;
-            case R.id.iv_pic_4:
-                presenter.checkAnswer(4);
-                break;
-        }
+        presenter.checkAnswer(view.getId());
     }
 
     @Override
@@ -186,10 +173,11 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     }
 
     @Override
-    public void showIsCorrect(boolean isCorrect) {
+    public void showIsCorrect(boolean isCorrect, int picId) {
         if (isCorrect) {
             presenter.nextQuiz();
         } else {
+            ((ImageView) getView().findViewById(picId)).setImageResource(R.drawable.ic_close);
             tvGuide.setText(R.string.quiz_message_wrong);
         }
     }
