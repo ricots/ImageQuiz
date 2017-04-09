@@ -30,4 +30,8 @@
     <string name="dialog_refill_life_ok">Конечно</string>
     <string name="dialog_refill_life_cancel">Откажусь</string>
 
+    <string name="dialog_network_title">Нет соединения</string>
+    <string name="dialog_network_message">Нет соединения с интернетом. Пожалуйста, подключитесь к интернету.</string>
+    <string name="dialog_network_ok">Ясно</string>
+
 </resources>

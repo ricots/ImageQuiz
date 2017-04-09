@@ -39,4 +39,16 @@ public class DialogUtils {
                 })
                 .create().show();
     }
+
+    public static void showNetworkTurnOnDialog(final Context context) {
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.dialog_network_title)
+                .setMessage(R.string.dialog_network_message)
+                .setPositiveButton(R.string.dialog_network_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+    }
 }

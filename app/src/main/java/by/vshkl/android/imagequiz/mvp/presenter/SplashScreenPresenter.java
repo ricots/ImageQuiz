@@ -15,6 +15,10 @@ import io.reactivex.functions.Consumer;
 @InjectViewState
 public class SplashScreenPresenter extends BasePresenter<ScpashScheenView> {
 
+    public void showQuiz() {
+        getViewState().scoresUpdated();
+    }
+
     public void updateScores() {
         setDisposable(NetworkRepository.getScores()
                 .compose(RxUtils.<List<Score>>applySchedulers())

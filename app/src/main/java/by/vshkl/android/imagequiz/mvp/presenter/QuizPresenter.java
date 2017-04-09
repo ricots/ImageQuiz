@@ -24,8 +24,8 @@ public class QuizPresenter extends BasePresenter<QuizView> {
     private int currentQuiz;
     private int fails = 0;
 
-    public void onPause() {
-        saveScoreLocal();
+    public void onPause(boolean hasNetwork) {
+        saveScoreLocal(hasNetwork);
     }
 
     public void changePlayer() {
@@ -36,9 +36,9 @@ public class QuizPresenter extends BasePresenter<QuizView> {
         getViewState().showRewardedVideoAd();
     }
 
-    public void doLifeRefill(int amount) {
+    public void doLifeRefill(int amount, boolean hasNetwork) {
         score.refillLife(amount);
-        saveScoreLocal();
+        saveScoreLocal(hasNetwork);
         startQuiz();
     }
 
@@ -105,13 +105,13 @@ public class QuizPresenter extends BasePresenter<QuizView> {
         }
     }
 
-    public void saveScoreLocal() {
+    public void saveScoreLocal(final boolean hasNetwork) {
         setDisposable(DatabaseRepository.saveScore(score)
                 .compose(RxUtils.<Boolean>applySchedulers())
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(@NonNull Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
+                        if (aBoolean && hasNetwork) {
                             saveScore();
                         }
                     }

@@ -9,6 +9,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import by.vshkl.android.imagequiz.mvp.presenter.SplashScreenPresenter;
 import by.vshkl.android.imagequiz.mvp.view.ScpashScheenView;
 import by.vshkl.android.imagequiz.utils.Navigator;
+import by.vshkl.android.imagequiz.utils.NetworkUtils;
 
 public class SplashScreenActivity extends MvpAppCompatActivity implements ScpashScheenView {
 
@@ -17,7 +18,11 @@ public class SplashScreenActivity extends MvpAppCompatActivity implements Scpash
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter.updateScores();
+        if (NetworkUtils.hasNetworkConnection(SplashScreenActivity.this)) {
+            presenter.updateScores();
+        } else {
+            presenter.showQuiz();
+        }
     }
 
     @Override

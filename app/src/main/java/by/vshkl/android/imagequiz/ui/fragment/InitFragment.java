@@ -21,6 +21,7 @@ import by.vshkl.android.imagequiz.mvp.presenter.InitPresenter;
 import by.vshkl.android.imagequiz.mvp.view.InitView;
 import by.vshkl.android.imagequiz.ui.activity.MainActivity;
 import by.vshkl.android.imagequiz.utils.DialogUtils;
+import by.vshkl.android.imagequiz.utils.NetworkUtils;
 import by.vshkl.android.imagequiz.utils.PrefUtils;
 
 public class InitFragment extends MvpAppCompatFragment implements InitView, OnClickListener {
@@ -105,7 +106,11 @@ public class InitFragment extends MvpAppCompatFragment implements InitView, OnCl
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_empty:
-                presenter.downloadQuiz();
+                if (NetworkUtils.hasNetworkConnection(getContext())) {
+                    presenter.downloadQuiz();
+                } else {
+                    DialogUtils.showNetworkTurnOnDialog(getContext());
+                }
                 break;
             case R.id.btn_start:
                 presenter.startQuiz();

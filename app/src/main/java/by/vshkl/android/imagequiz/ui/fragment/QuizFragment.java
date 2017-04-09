@@ -17,7 +17,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -38,6 +37,7 @@ import by.vshkl.android.imagequiz.ui.listener.LifeRefillListener;
 import by.vshkl.android.imagequiz.ui.view.RobotoMediumTextView;
 import by.vshkl.android.imagequiz.utils.AssetsUtils;
 import by.vshkl.android.imagequiz.utils.DialogUtils;
+import by.vshkl.android.imagequiz.utils.NetworkUtils;
 import by.vshkl.android.imagequiz.utils.PrefUtils;
 
 public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnClickListener, LifeRefillListener {
@@ -130,9 +130,10 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
     @Override
     public void onPause() {
+        boolean hasNetwork = NetworkUtils.hasNetworkConnection(getContext());
         rewardedVideoAd.pause(getContext());
-        presenter.saveScoreLocal();
-        presenter.onPause();
+        presenter.saveScoreLocal(hasNetwork);
+        presenter.onPause(hasNetwork);
         super.onPause();
     }
 
@@ -221,15 +222,21 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
     @Override
     public void showInterstitialAd() {
-        if (interstitialAd.isLoaded()) {
-            interstitialAd.show();
+        if (NetworkUtils.hasNetworkConnection(getContext())) {
+            if (interstitialAd.isLoaded()) {
+                interstitialAd.show();
+            }
+        } else {
+            DialogUtils.showNetworkTurnOnDialog(getContext());
         }
     }
 
     @Override
     public void showRewardedVideoAd() {
-        if (rewardedVideoAd.isLoaded()) {
-            rewardedVideoAd.show();
+        if (NetworkUtils.hasNetworkConnection(getContext())) {
+            if (rewardedVideoAd.isLoaded()) {
+                rewardedVideoAd.show();
+            }
         }
     }
 
@@ -267,7 +274,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
             @Override
             public void onRewarded(RewardItem rewardItem) {
-                presenter.doLifeRefill(10);
+                presenter.doLifeRefill(10, NetworkUtils.hasNetworkConnection(getContext()));
             }
 
             @Override
