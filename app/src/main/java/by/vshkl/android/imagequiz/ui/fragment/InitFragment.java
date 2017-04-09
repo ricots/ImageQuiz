@@ -20,6 +20,7 @@ import by.vshkl.android.imagequiz.R;
 import by.vshkl.android.imagequiz.mvp.presenter.InitPresenter;
 import by.vshkl.android.imagequiz.mvp.view.InitView;
 import by.vshkl.android.imagequiz.ui.activity.MainActivity;
+import by.vshkl.android.imagequiz.utils.DialogUtils;
 import by.vshkl.android.imagequiz.utils.PrefUtils;
 
 public class InitFragment extends MvpAppCompatFragment implements InitView, OnClickListener {
@@ -137,8 +138,8 @@ public class InitFragment extends MvpAppCompatFragment implements InitView, OnCl
     public void showQuiz() {
         String name = etName.getText().toString();
 
-        if (name == null && name.isEmpty()) {
-            //TODO: Show alert
+        if (name.isEmpty()) {
+            DialogUtils.showEmptyNameAlert(getContext());
         } else {
             PrefUtils.setLogged(getContext(), true);
             PrefUtils.setName(getContext(), name);

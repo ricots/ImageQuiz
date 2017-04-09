@@ -20,4 +20,8 @@
     <string name="pref_logged">pref_logged</string>
     <string name="pref_name">pref_name</string>
 
+    <string name="dialog_empty_name_title">Пустое имя</string>
+    <string name="dialog_empty_name_message">Имя не может быть пусты. Пожалуйста, введите имя игрока.</string>
+    <string name="dialog_empty_name_ok">Ясно</string>
+
 </resources>
