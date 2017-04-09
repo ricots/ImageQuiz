@@ -1,5 +1,7 @@
 package by.vshkl.android.imagequiz.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -14,6 +16,10 @@ import by.vshkl.android.imagequiz.utils.PrefUtils;
 public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     @InjectPresenter MainPresenter presenter;
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

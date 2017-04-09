@@ -16,6 +16,10 @@
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
+    <style name="AppTheme.NoActionBar.SplashScreenTheme" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/bg_splash_screen</item>
+    </style>
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>
