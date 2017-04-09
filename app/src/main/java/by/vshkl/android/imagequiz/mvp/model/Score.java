@@ -70,8 +70,8 @@ public class Score {
         }
     }
 
-    public void refillLife() {
-        life = 10;
+    public void refillLife(int amount) {
+        life = amount;
     }
 
     @Override

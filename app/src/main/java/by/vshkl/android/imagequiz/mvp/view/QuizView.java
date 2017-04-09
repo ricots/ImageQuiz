@@ -15,4 +15,8 @@ public interface QuizView extends MvpView {
     void changePlayer();
 
     void showLifeRefillDialog();
+
+    void showInterstitialAd();
+
+    void showRewardedVideoAd();
 }

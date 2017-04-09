@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#673AB7</color>
     <color name="colorAccent">#FFD600</color>
 
+    <color name="colorBackgroundPage">#FFFDE7</color>
+    <color name="colorBackgroundItem">#FFFFFF</color>
+
     <color name="colorIcon">#757575</color>
     <color name="colorIconCategories">#8D6E63</color>
 

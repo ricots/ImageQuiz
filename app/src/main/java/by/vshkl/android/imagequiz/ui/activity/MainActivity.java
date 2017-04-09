@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.android.gms.ads.MobileAds;
 
 import by.vshkl.android.imagequiz.R;
 import by.vshkl.android.imagequiz.mvp.presenter.MainPresenter;
@@ -25,6 +26,8 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(getApplicationContext(), getString(R.string.ad_app_id));
 
         presenter.checkLogged();
     }

@@ -20,7 +20,9 @@ public class QuizPresenter extends BasePresenter<QuizView> {
 
     private List<QuizItem> quizItems;
     private Score score;
+    private int quizItemsCount;
     private int currentQuiz;
+    private int fails = 0;
 
     public void onPause() {
         saveScoreLocal();
@@ -30,8 +32,12 @@ public class QuizPresenter extends BasePresenter<QuizView> {
         getViewState().changePlayer();
     }
 
-    public void doLifeRefill() {
-        score.refillLife();
+    public void showRewardedVideoAd() {
+        getViewState().showRewardedVideoAd();
+    }
+
+    public void doLifeRefill(int amount) {
+        score.refillLife(amount);
         startQuiz();
     }
 
@@ -48,18 +54,25 @@ public class QuizPresenter extends BasePresenter<QuizView> {
     }
 
     public void nextQuiz() {
-        if (score.getLife() <= 0) {
-            getViewState().showLifeRefillDialog();
-            return;
-        }
         currentQuiz++;
-        if (currentQuiz == 20) {
+        if (currentQuiz == quizItemsCount) {
+            getViewState().showInterstitialAd();
             startQuiz();
         }
         getViewState().showQuiz(quizItems.get(currentQuiz));
     }
 
     public void checkAnswer(int picId) {
+        switch (score.getLife()) {
+            case 1:
+                getViewState().showLifeRefillDialog();
+                scoreDown();
+                return;
+            case 0:
+                getViewState().showLifeRefillDialog();
+                return;
+        }
+
         int picNumber = 0;
 
         switch (picId) {
@@ -122,6 +135,7 @@ public class QuizPresenter extends BasePresenter<QuizView> {
                     @Override
                     public void accept(@NonNull List<QuizItem> quizItemsResult) throws Exception {
                         quizItems = quizItemsResult;
+                        quizItemsCount = quizItemsResult.size();
                         startQuiz();
                     }
                 }));
@@ -137,6 +151,11 @@ public class QuizPresenter extends BasePresenter<QuizView> {
     private void scoreDown() {
         if (score.getLife() > 0) {
             score.scoreDown();
+            fails++;
+            if (fails == 3) {
+                getViewState().showInterstitialAd();
+                fails = 0;
+            }
         }
     }
 

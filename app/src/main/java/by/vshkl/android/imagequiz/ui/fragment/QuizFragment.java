@@ -21,6 +21,13 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
 import by.vshkl.android.imagequiz.R;
 import by.vshkl.android.imagequiz.mvp.model.QuizItem;
@@ -45,6 +52,8 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     private ImageView ivPic4;
 
     private MainActivity parentActivity;
+    private InterstitialAd interstitialAd;
+    private RewardedVideoAd rewardedVideoAd;
 
     public static Fragment newInstance() {
         return new QuizFragment();
@@ -62,6 +71,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        initializeAds();
     }
 
     @Nullable
@@ -112,7 +122,14 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     }
 
     @Override
+    public void onResume() {
+        rewardedVideoAd.resume(getContext());
+        super.onResume();
+    }
+
+    @Override
     public void onPause() {
+        rewardedVideoAd.pause(getContext());
         presenter.saveScoreLocal();
         presenter.onPause();
         super.onPause();
@@ -126,6 +143,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
     @Override
     public void onDetach() {
+        rewardedVideoAd.destroy(getContext());
         this.parentActivity = null;
         super.onDetach();
     }
@@ -137,7 +155,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
     @Override
     public void onConfirmLifeRefill() {
-        presenter.doLifeRefill();
+        presenter.showRewardedVideoAd();
     }
 
     @Override
@@ -147,13 +165,17 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
         ivPic2.setImageBitmap(AssetsUtils.getBitmap(getContext(), quizItem.getPicNames()[1]));
         ivPic3.setImageBitmap(AssetsUtils.getBitmap(getContext(), quizItem.getPicNames()[2]));
         ivPic4.setImageBitmap(AssetsUtils.getBitmap(getContext(), quizItem.getPicNames()[3]));
+        ivPic1.setClickable(true);
+        ivPic2.setClickable(true);
+        ivPic3.setClickable(true);
+        ivPic4.setClickable(true);
 
         Point point = new Point();
         parentActivity.getWindowManager().getDefaultDisplay().getSize(point);
         int screenWidth = point.x;
         int screenHeight = point.y;
 
-        int width;  //TODO: calculate real ratio
+        int width;
         if (screenWidth < screenHeight) {
             width = point.x * 233 / 300;
         } else {
@@ -177,7 +199,9 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
         if (isCorrect) {
             presenter.nextQuiz();
         } else {
-            ((ImageView) getView().findViewById(picId)).setImageResource(R.drawable.ic_close);
+            ImageView imageView = ((ImageView) getView().findViewById(picId));
+            imageView.setImageResource(R.drawable.ic_close);
+            imageView.setClickable(false);
             tvGuide.setText(R.string.quiz_message_wrong);
         }
     }
@@ -192,5 +216,79 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     @Override
     public void showLifeRefillDialog() {
         DialogUtils.showLifeRefillDialog(getContext(), this);
+    }
+
+    @Override
+    public void showInterstitialAd() {
+        if (interstitialAd.isLoaded()) {
+            interstitialAd.show();
+        }
+    }
+
+    @Override
+    public void showRewardedVideoAd() {
+        if (rewardedVideoAd.isLoaded()) {
+            rewardedVideoAd.show();
+        }
+    }
+
+    private void initializeAds() {
+        interstitialAd = new InterstitialAd(getContext());
+        interstitialAd.setAdUnitId(getString(R.string.ad_basic_unit_id));
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
+
+        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getContext());
+        rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
+            @Override
+            public void onRewardedVideoAdLoaded() {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdOpened() {
+
+            }
+
+            @Override
+            public void onRewardedVideoStarted() {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdClosed() {
+
+            }
+
+            @Override
+            public void onRewarded(RewardItem rewardItem) {
+                presenter.doLifeRefill(rewardItem.getAmount());
+            }
+
+            @Override
+            public void onRewardedVideoAdLeftApplication() {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdFailedToLoad(int i) {
+
+            }
+        });
+
+        requestNewInterstitial();
+        requestRewardedVideoAd();
+    }
+
+    private void requestNewInterstitial() {
+        interstitialAd.loadAd(new AdRequest.Builder().build());
+    }
+
+    private void requestRewardedVideoAd() {
+        rewardedVideoAd.loadAd(getString(R.string.ad_video_unit_id), new AdRequest.Builder().build());
     }
 }
