@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Image quiz</string>
+
+    <string name="menu_rating">Рейтинг</string>
+
+    <string name="quiz_message_guide">Выберите лишнюю картинку</string>
+    <string name="quiz_message_wrong">Неправильно!</string>
+
+</resources>
