@@ -70,6 +70,10 @@ public class Score {
         }
     }
 
+    public void refillLife() {
+        life = 10;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

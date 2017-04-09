@@ -40,6 +40,11 @@ public class QuizPresenter extends MvpPresenter<QuizView> {
         getViewState().changePlayer();
     }
 
+    public void doLifeRefill() {
+        score.refillLife();
+        startQuiz();
+    }
+
     public void beginQuiz(String name) {
         disposable = DatabaseRepository.loadScore(name)
                 .compose(RxUtils.<Score>applySchedulers())
@@ -53,6 +58,10 @@ public class QuizPresenter extends MvpPresenter<QuizView> {
     }
 
     public void nextQuiz() {
+        if (score.getLife() <= 0) {
+            getViewState().showLifeRefillDialog();
+            return;
+        }
         currentQuiz++;
         if (currentQuiz == 20) {
             startQuiz();
@@ -62,13 +71,13 @@ public class QuizPresenter extends MvpPresenter<QuizView> {
 
     public void checkAnswer(int picNumber) {
         if (quizItems.get(currentQuiz).getCorrect() == picNumber) {
-            getViewState().showIsCorrect(true);
             scoreUp();
+            getViewState().showIsCorrect(true);
         } else {
-            getViewState().showIsCorrect(false);
             scoreDown();
+            getViewState().showIsCorrect(false);
         }
-        if (life > 0) {
+        if (score.getLife() > 0) {
             getViewState().showStats(score.getScore(), score.getLife());
         } else {
             startQuiz();
@@ -95,18 +104,8 @@ public class QuizPresenter extends MvpPresenter<QuizView> {
     }
 
     private void scoreDown() {
-        switch (score.scoreDown()) {
-            case GameState.OK:
-                nextQuiz();
-                break;
-            case GameState.ZERO_LIFE:
-//                saveScore();
-                startQuiz();    //TODO: Replace with action
-                break;
-            case GameState.NEGATIVE_SCORE:
-//                saveScore();
-                startQuiz();    //TODO: Replace with action
-                break;
+        if (score.getLife() > 0) {
+            score.scoreDown();
         }
     }
 

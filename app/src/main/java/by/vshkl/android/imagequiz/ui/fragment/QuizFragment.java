@@ -27,10 +27,12 @@ import by.vshkl.android.imagequiz.mvp.model.QuizItem;
 import by.vshkl.android.imagequiz.mvp.presenter.QuizPresenter;
 import by.vshkl.android.imagequiz.mvp.view.QuizView;
 import by.vshkl.android.imagequiz.ui.activity.MainActivity;
+import by.vshkl.android.imagequiz.ui.listener.LifeRefillListener;
 import by.vshkl.android.imagequiz.utils.AssetsUtils;
+import by.vshkl.android.imagequiz.utils.DialogUtils;
 import by.vshkl.android.imagequiz.utils.PrefUtils;
 
-public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnClickListener {
+public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnClickListener, LifeRefillListener {
 
     @InjectPresenter QuizPresenter presenter;
 
@@ -146,6 +148,11 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     }
 
     @Override
+    public void onConfirmLifeRefill() {
+        presenter.doLifeRefill();
+    }
+
+    @Override
     public void showQuiz(QuizItem quizItem) {
         tvGuide.setText(R.string.quiz_message_guide);
         ivPic1.setImageBitmap(AssetsUtils.getBitmap(getContext(), quizItem.getPicNames()[0]));
@@ -191,5 +198,10 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
         PrefUtils.setName(getContext(), "");
         PrefUtils.setLogged(getContext(), false);
         parentActivity.getPresenter().showInit(true);
+    }
+
+    @Override
+    public void showLifeRefillDialog() {
+        DialogUtils.showLifeRefillDialog(getContext(), this);
     }
 }

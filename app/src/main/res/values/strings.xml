@@ -25,4 +25,9 @@
     <string name="dialog_empty_name_message">Имя не может быть пусты. Пожалуйста, введите имя игрока.</string>
     <string name="dialog_empty_name_ok">Ясно</string>
 
+    <string name="dialog_refill_life_title">Закончились жизни</string>
+    <string name="dialog_refill_life_message">У Вас закончились жизни, %%username%%. Желаете пополнит? Нужно всего лишь посмореть рекламу.</string>
+    <string name="dialog_refill_life_ok">Конечно</string>
+    <string name="dialog_refill_life_cancel">Откажусь</string>
+
 </resources>

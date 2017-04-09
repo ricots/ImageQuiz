@@ -139,7 +139,7 @@ public class InitFragment extends MvpAppCompatFragment implements InitView, OnCl
         String name = etName.getText().toString();
 
         if (name.isEmpty()) {
-            DialogUtils.showEmptyNameAlert(getContext());
+            DialogUtils.showEmptyNameDialog(getContext());
         } else {
             PrefUtils.setLogged(getContext(), true);
             PrefUtils.setName(getContext(), name);

@@ -13,4 +13,6 @@ public interface QuizView extends MvpView {
     void showIsCorrect(boolean isCorrect);
 
     void changePlayer();
+
+    void showLifeRefillDialog();
 }
