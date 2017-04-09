@@ -24,8 +24,8 @@ public class QuizPresenter extends BasePresenter<QuizView> {
     private int currentQuiz;
     private int fails = 0;
 
-    public void onPause(boolean hasNetwork) {
-        saveScoreLocal(hasNetwork);
+    public void onPause() {
+        saveScoreLocal();
     }
 
     public void changePlayer() {
@@ -36,9 +36,9 @@ public class QuizPresenter extends BasePresenter<QuizView> {
         getViewState().showRewardedVideoAd();
     }
 
-    public void doLifeRefill(int amount, boolean hasNetwork) {
+    public void doLifeRefill(int amount) {
         score.refillLife(amount);
-        saveScoreLocal(hasNetwork);
+        saveScoreLocal();
         startQuiz();
     }
 
@@ -105,13 +105,26 @@ public class QuizPresenter extends BasePresenter<QuizView> {
         }
     }
 
-    public void saveScoreLocal(final boolean hasNetwork) {
+    private void loadQuizItems() {
+        setDisposable(DatabaseRepository.loadQuizItems()
+                .compose(RxUtils.<List<QuizItem>>applySchedulers())
+                .subscribe(new Consumer<List<QuizItem>>() {
+                    @Override
+                    public void accept(@NonNull List<QuizItem> quizItemsResult) throws Exception {
+                        quizItems = quizItemsResult;
+                        quizItemsCount = quizItemsResult.size();
+                        startQuiz();
+                    }
+                }));
+    }
+
+    public void saveScoreLocal() {
         setDisposable(DatabaseRepository.saveScore(score)
                 .compose(RxUtils.<Boolean>applySchedulers())
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(@NonNull Boolean aBoolean) throws Exception {
-                        if (aBoolean && hasNetwork) {
+                        if (aBoolean) {
                             saveScore();
                         }
                     }
@@ -125,19 +138,6 @@ public class QuizPresenter extends BasePresenter<QuizView> {
                     @Override
                     public void accept(@NonNull Boolean aBoolean) throws Exception {
 
-                    }
-                }));
-    }
-
-    private void loadQuizItems() {
-        setDisposable(DatabaseRepository.loadQuizItems()
-                .compose(RxUtils.<List<QuizItem>>applySchedulers())
-                .subscribe(new Consumer<List<QuizItem>>() {
-                    @Override
-                    public void accept(@NonNull List<QuizItem> quizItemsResult) throws Exception {
-                        quizItems = quizItemsResult;
-                        quizItemsCount = quizItemsResult.size();
-                        startQuiz();
                     }
                 }));
     }

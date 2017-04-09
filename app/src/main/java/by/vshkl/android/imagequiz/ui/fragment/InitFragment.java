@@ -30,12 +30,10 @@ public class InitFragment extends MvpAppCompatFragment implements InitView, OnCl
 
     @InjectPresenter InitPresenter presenter;
 
-    private Toolbar tbToolbar;
     private EditText etName;
     private LinearLayout llEmpty;
     private LinearLayout llProgress;
     private LinearLayout llStart;
-    private Button btnStart;
 
     private MainActivity parentActivity;
     private boolean isChangePlayer;
@@ -71,12 +69,12 @@ public class InitFragment extends MvpAppCompatFragment implements InitView, OnCl
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tbToolbar = (Toolbar) view.findViewById(R.id.tb_toolbar);
+        Toolbar tbToolbar = (Toolbar) view.findViewById(R.id.tb_toolbar);
         etName = (EditText) view.findViewById(R.id.et_name);
         llEmpty = (LinearLayout) view.findViewById(R.id.ll_empty);
         llProgress = (LinearLayout) view.findViewById(R.id.ll_progress);
         llStart = (LinearLayout) view.findViewById(R.id.ll_start);
-        btnStart = (Button) view.findViewById(R.id.btn_start);
+        Button btnStart = (Button) view.findViewById(R.id.btn_start);
 
         llEmpty.setOnClickListener(this);
         btnStart.setOnClickListener(this);

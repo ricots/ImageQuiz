@@ -44,7 +44,6 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
     @InjectPresenter QuizPresenter presenter;
 
-    private Toolbar tbToolbar;
     private RobotoMediumTextView tvGuide;
     private GridLayout glImages;
     private ImageView ivPic1;
@@ -85,7 +84,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tbToolbar = (Toolbar) view.findViewById(R.id.tb_toolbar);
+        Toolbar tbToolbar = (Toolbar) view.findViewById(R.id.tb_toolbar);
         tvGuide = (RobotoMediumTextView) view.findViewById(R.id.tv_guide);
         glImages = (GridLayout) view.findViewById(R.id.gl_images);
         ivPic1 = (ImageView) view.findViewById(R.id.iv_pic_1);
@@ -112,6 +111,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_rating:
+                presenter.saveScoreLocal();
                 parentActivity.getPresenter().showRating();
                 return true;
             case R.id.action_change_player:
@@ -130,10 +130,9 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
     @Override
     public void onPause() {
-        boolean hasNetwork = NetworkUtils.hasNetworkConnection(getContext());
         rewardedVideoAd.pause(getContext());
-        presenter.saveScoreLocal(hasNetwork);
-        presenter.onPause(hasNetwork);
+        presenter.saveScoreLocal();
+        presenter.onPause();
         super.onPause();
     }
 
@@ -274,7 +273,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
             @Override
             public void onRewarded(RewardItem rewardItem) {
-                presenter.doLifeRefill(10, NetworkUtils.hasNetworkConnection(getContext()));
+                presenter.doLifeRefill(10);
             }
 
             @Override

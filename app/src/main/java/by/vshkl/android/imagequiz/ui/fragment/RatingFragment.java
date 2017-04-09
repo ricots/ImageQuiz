@@ -29,7 +29,6 @@ public class RatingFragment extends MvpAppCompatFragment implements RatingView {
 
     @InjectPresenter RatingPresenter presenter;
 
-    private Toolbar tbToolbar;
     private RecyclerView rvList;
 
     private MainActivity parentActivity;
@@ -62,10 +61,12 @@ public class RatingFragment extends MvpAppCompatFragment implements RatingView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tbToolbar = (Toolbar) view.findViewById(R.id.tb_toolbar);
+        Toolbar tbToolbar = (Toolbar) view.findViewById(R.id.tb_toolbar);
         rvList = (RecyclerView) view.findViewById(R.id.rv_rating);
         parentActivity.setSupportActionBar(tbToolbar);
+
         initializeRecyclerView();
+
         presenter.loadRating(PrefUtils.getName(getContext()));
     }
 
