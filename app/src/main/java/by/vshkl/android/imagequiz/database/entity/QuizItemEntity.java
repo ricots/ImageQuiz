@@ -1,34 +1,23 @@
-package by.vshkl.android.imagequiz.mvp.model;
+package by.vshkl.android.imagequiz.database.entity;
+
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.Arrays;
 
-import by.vshkl.android.imagequiz.utils.FIleNameUtils;
+import by.vshkl.android.imagequiz.database.AppDatabase;
 
-public class QuizItem {
+@Table(database = AppDatabase.class, name = "QuizItems")
+public class QuizItemEntity extends BaseModel {
 
-    private int id;
-    private String[] picNames;
-    private int correct;
-    private String correctDescription;
+    @PrimaryKey private int id;
+    @Column private String[] picNames;
+    @Column private int correct;
+    @Column private String correctDescription;
 
-    public QuizItem() {
-    }
-
-    public QuizItem(String strInfo) {
-        String[] cols = strInfo.split(";", 3);
-
-        if (cols[0] != null) {
-            this.id = Integer.parseInt(cols[0]);
-            this.picNames = FIleNameUtils.getFileNames(id);
-        }
-
-        if (cols[1] != null) {
-            this.correct = Integer.parseInt(cols[1]);
-        }
-
-        if (cols[2] != null) {
-            this.correctDescription = cols[2];
-        }
+    public QuizItemEntity() {
     }
 
     public int getId() {
@@ -37,10 +26,9 @@ public class QuizItem {
 
     public void setId(int id) {
         this.id = id;
-        this.picNames = FIleNameUtils.getFileNames(id);
     }
 
-    public String[]getPicNames() {
+    public String[] getPicNames() {
         return picNames;
     }
 
@@ -69,13 +57,13 @@ public class QuizItem {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof QuizItem)) {
+        if (!(o instanceof QuizItemEntity)) {
             return false;
         }
 
-        QuizItem quizItem = (QuizItem) o;
+        QuizItemEntity that = (QuizItemEntity) o;
 
-        return getId() == quizItem.getId();
+        return getId() == that.getId();
     }
 
     @Override
@@ -85,9 +73,9 @@ public class QuizItem {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("QuizItem{");
+        final StringBuilder sb = new StringBuilder("QuizItemEntity{");
         sb.append("id=").append(id);
-        sb.append(", picNames=").append(Arrays.deepToString(picNames));
+        sb.append(", picNames=").append(Arrays.toString(picNames));
         sb.append(", correct=").append(correct);
         sb.append(", correctDescription='").append(correctDescription).append('\'');
         sb.append('}');
