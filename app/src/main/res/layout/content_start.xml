@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/rating_name_hing"
+            android:textColor="@color/colorPrimaryText"
             />
 
     </android.support.design.widget.TextInputLayout>

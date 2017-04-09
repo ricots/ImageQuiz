@@ -67,7 +67,10 @@ public class DatabaseRepository {
         return Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
-                emitter.onNext(ScoreMapper.transform(score).save());
+                ScoreEntity scoreEntity = ScoreMapper.transform(score);
+                if (scoreEntity != null) {
+                    scoreEntity.save();
+                }
             }
         });
     }

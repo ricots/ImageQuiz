@@ -35,6 +35,7 @@ import by.vshkl.android.imagequiz.mvp.presenter.QuizPresenter;
 import by.vshkl.android.imagequiz.mvp.view.QuizView;
 import by.vshkl.android.imagequiz.ui.activity.MainActivity;
 import by.vshkl.android.imagequiz.ui.listener.LifeRefillListener;
+import by.vshkl.android.imagequiz.ui.view.RobotoMediumTextView;
 import by.vshkl.android.imagequiz.utils.AssetsUtils;
 import by.vshkl.android.imagequiz.utils.DialogUtils;
 import by.vshkl.android.imagequiz.utils.PrefUtils;
@@ -44,7 +45,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     @InjectPresenter QuizPresenter presenter;
 
     private Toolbar tbToolbar;
-    private TextView tvGuide;
+    private RobotoMediumTextView tvGuide;
     private GridLayout glImages;
     private ImageView ivPic1;
     private ImageView ivPic2;
@@ -83,8 +84,9 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         tbToolbar = (Toolbar) view.findViewById(R.id.tb_toolbar);
-        tvGuide = (TextView) view.findViewById(R.id.tv_guide);
+        tvGuide = (RobotoMediumTextView) view.findViewById(R.id.tv_guide);
         glImages = (GridLayout) view.findViewById(R.id.gl_images);
         ivPic1 = (ImageView) view.findViewById(R.id.iv_pic_1);
         ivPic2 = (ImageView) view.findViewById(R.id.iv_pic_2);
@@ -97,7 +99,6 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
         ivPic4.setOnClickListener(this);
 
         parentActivity.setSupportActionBar(tbToolbar);
-
         presenter.beginQuiz(PrefUtils.getName(getContext()));
     }
 
@@ -266,7 +267,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
             @Override
             public void onRewarded(RewardItem rewardItem) {
-                presenter.doLifeRefill(rewardItem.getAmount());
+                presenter.doLifeRefill(10);
             }
 
             @Override

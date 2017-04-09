@@ -2,22 +2,23 @@ package by.vshkl.android.imagequiz.ui.adapter;
 
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
-import android.widget.TextView;
 
 import by.vshkl.android.imagequiz.R;
+import by.vshkl.android.imagequiz.ui.view.RobotoMediumTextView;
+import by.vshkl.android.imagequiz.ui.view.RobotoRegularTextView;
 
 class RatingViewHolder extends ViewHolder {
 
-    TextView tvRatingNumber;
-    TextView tvRatingName;
-    TextView tvRatingScore;
+    RobotoMediumTextView tvRatingNumber;
+    RobotoRegularTextView tvRatingName;
+    RobotoMediumTextView tvRatingScore;
 
     RatingViewHolder(View itemView) {
         super(itemView);
 
-        tvRatingNumber = (TextView) itemView.findViewById(R.id.tv_rating_number);
-        tvRatingName = (TextView) itemView.findViewById(R.id.tv_rating_name);
-        tvRatingScore = (TextView) itemView.findViewById(R.id.tv_rating_score);
+        tvRatingNumber = (RobotoMediumTextView) itemView.findViewById(R.id.tv_rating_number);
+        tvRatingName = (RobotoRegularTextView) itemView.findViewById(R.id.tv_rating_name);
+        tvRatingScore = (RobotoMediumTextView) itemView.findViewById(R.id.tv_rating_score);
 
     }
 }

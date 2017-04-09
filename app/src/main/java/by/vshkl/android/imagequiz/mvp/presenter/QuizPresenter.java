@@ -38,6 +38,7 @@ public class QuizPresenter extends BasePresenter<QuizView> {
 
     public void doLifeRefill(int amount) {
         score.refillLife(amount);
+        saveScoreLocal();
         startQuiz();
     }
 

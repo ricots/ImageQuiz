@@ -4,21 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:orientation="horizontal"
     android:background="@color/colorBackgroundItem"
+    android:orientation="horizontal"
     >
 
-    <TextView
+    <by.vshkl.android.imagequiz.ui.view.RobotoMediumTextView
         android:id="@+id/tv_rating_number"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="start"
         android:gravity="center"
+        android:textColor="@color/colorPrimaryText"
         android:textSize="18sp"
         tools:text="1"
         />
 
-    <TextView
+    <by.vshkl.android.imagequiz.ui.view.RobotoRegularTextView
         android:id="@+id/tv_rating_name"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -31,16 +32,18 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingStart="8dp"
+        android:textColor="@color/colorPrimaryText"
         android:textSize="18sp"
         tools:text="Рулон Обоев"
         />
 
-    <TextView
+    <by.vshkl.android.imagequiz.ui.view.RobotoMediumTextView
         android:id="@+id/tv_rating_score"
         android:layout_width="96dp"
         android:layout_height="48dp"
         android:layout_gravity="end"
         android:gravity="center"
+        android:textColor="@color/colorPrimaryText"
         android:textSize="18sp"
         tools:text="100500"
         />

@@ -21,11 +21,12 @@
         tools:ignore="ContentDescription"
         />
 
-    <TextView
+    <by.vshkl.android.imagequiz.ui.view.RobotoMediumTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
+        android:textColor="@color/colorPrimaryText"
         android:text="@string/message_empty"
         android:textSize="24sp"
         />

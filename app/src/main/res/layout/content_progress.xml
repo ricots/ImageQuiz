@@ -16,12 +16,13 @@
         android:layout_gravity="center"
         />
 
-    <TextView
+    <by.vshkl.android.imagequiz.ui.view.RobotoMediumTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="@string/message_downloading"
+        android:textColor="@color/colorPrimaryText"
         android:textSize="24sp"
         />
 
