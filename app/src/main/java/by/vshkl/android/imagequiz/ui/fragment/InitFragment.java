@@ -146,4 +146,9 @@ public class InitFragment extends MvpAppCompatFragment implements InitView, OnCl
             parentActivity.getPresenter().showQuiz();
         }
     }
+
+    @Override
+    public void quizDownloaded() {
+        PrefUtils.setDownloaded(getContext(), true);
+    }
 }

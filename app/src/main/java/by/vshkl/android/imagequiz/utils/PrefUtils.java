@@ -18,6 +18,16 @@ public class PrefUtils {
         return sharedPreferences.getBoolean(context.getString(R.string.pref_logged), false);
     }
 
+    public static void setDownloaded(Context context, boolean isDownloaded) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences.edit().putBoolean(context.getString(R.string.pref_downloaded), isDownloaded).apply();
+    }
+
+    public static boolean getDownloaded(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean(context.getString(R.string.pref_downloaded), false);
+    }
+
     public static void setName(Context context, String name) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putString(context.getString(R.string.pref_name), name).apply();

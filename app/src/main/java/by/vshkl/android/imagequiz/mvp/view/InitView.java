@@ -11,4 +11,6 @@ public interface InitView extends MvpView {
     void showStart();
 
     void showQuiz();
+
+    void quizDownloaded();
 }

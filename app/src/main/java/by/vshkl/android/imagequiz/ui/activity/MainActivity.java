@@ -31,10 +31,12 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     @Override
     public void checkLogged() {
-        if (PrefUtils.getLogged(getApplicationContext())) {
-            presenter.showQuiz();
-        } else {
+        if (!PrefUtils.getDownloaded(getApplicationContext())) {
             presenter.showInit(false);
+        } else if (!PrefUtils.getLogged(getApplicationContext())) {
+            presenter.showInit(true);
+        } else {
+            presenter.showQuiz();
         }
     }
 

@@ -18,6 +18,7 @@
     <string name="message_downloading">Подождите, пока задания загрузятся.</string>
 
     <string name="pref_logged">pref_logged</string>
+    <string name="pref_downloaded">pref_downloaded</string>
     <string name="pref_name">pref_name</string>
 
     <string name="dialog_empty_name_title">Пустое имя</string>
