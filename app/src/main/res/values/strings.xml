@@ -6,8 +6,8 @@
     <string name="quiz_message_guide">Выберите лишнюю картинку</string>
     <string name="quiz_message_wrong">Неправильно!</string>
 
-    <string name="title_score">Ваш счёт: %i$1</string>
-    <string name="title_life">Жизни: %i$1</string>
+    <string name="title_score">Ваш счёт: %1$d</string>
+    <string name="title_life">Жизни: %1$d</string>
 
     <string name="rating_name_hing">Имя</string>
 

@@ -9,13 +9,12 @@ import by.vshkl.android.imagequiz.mvp.model.QuizItem;
 
 public class QuizItemEntityMapper {
 
-    public static QuizItem transform(QuizItemEntity quizItemEntity, String[] pics) {
+    public static QuizItem transform(QuizItemEntity quizItemEntity) {
         QuizItem quizItem = null;
 
         if (quizItemEntity != null) {
             quizItem = new QuizItem();
             quizItem.setId(quizItemEntity.getId());
-            quizItem.setPicNames(pics);
             quizItem.setCorrect(quizItemEntity.getCorrect());
             quizItem.setCorrectDescription(quizItemEntity.getCorrectDescription());
         }
@@ -23,17 +22,15 @@ public class QuizItemEntityMapper {
         return quizItem;
     }
 
-    public static List<QuizItem> transform(List<QuizItemEntity> quizItemEntities, List<String[]> pics) {
+    public static List<QuizItem> transform(List<QuizItemEntity> quizItemEntities) {
         if (quizItemEntities == null || quizItemEntities.isEmpty()) {
             return Collections.emptyList();
         }
 
         List<QuizItem> quizItems = new ArrayList<>(quizItemEntities.size());
-        for (int i = 0; i < quizItemEntities.size(); i++) {
-            QuizItemEntity quizItemEntity = quizItemEntities.get(i);
-            String[] picsArray = pics.get(i);
-            if (quizItemEntity != null && picsArray != null) {
-                quizItems.add(transform(quizItemEntity, picsArray));
+        for (QuizItemEntity quizItemEntity : quizItemEntities) {
+            if (quizItemEntity != null) {
+                quizItems.add(transform(quizItemEntity));
             }
         }
 

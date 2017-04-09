@@ -17,11 +17,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import by.vshkl.android.imagequiz.R;
+import by.vshkl.android.imagequiz.mvp.model.QuizItem;
 import by.vshkl.android.imagequiz.mvp.presenter.QuizPresenter;
 import by.vshkl.android.imagequiz.mvp.view.QuizView;
 import by.vshkl.android.imagequiz.ui.activity.MainActivity;
@@ -32,6 +34,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     @InjectPresenter QuizPresenter presenter;
 
     private Toolbar tbToolbar;
+    private TextView tvGuide;
     private GridLayout glImages;
     private ImageView ivPic1;
     private ImageView ivPic2;
@@ -68,6 +71,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tbToolbar = (Toolbar) view.findViewById(R.id.tb_toolbar);
+        tvGuide = (TextView) view.findViewById(R.id.tv_guide);
         glImages = (GridLayout) view.findViewById(R.id.gl_images);
         ivPic1 = (ImageView) view.findViewById(R.id.iv_pic_1);
         ivPic2 = (ImageView) view.findViewById(R.id.iv_pic_2);
@@ -80,7 +84,8 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
         ivPic4.setOnClickListener(this);
 
         parentActivity.setSupportActionBar(tbToolbar);
-        presenter.showQuizPics();
+
+        presenter.loadQuizItems();
     }
 
     @Override
@@ -116,22 +121,27 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_pic_1:
+                presenter.checkAnswer(1);
                 break;
             case R.id.iv_pic_2:
+                presenter.checkAnswer(2);
                 break;
             case R.id.iv_pic_3:
+                presenter.checkAnswer(3);
                 break;
             case R.id.iv_pic_4:
+                presenter.checkAnswer(4);
                 break;
         }
     }
 
     @Override
-    public void showQuizPics() {
-        ivPic1.setImageBitmap(AssetsUtils.getBitmap(getContext(), "pic/1.1.jpg"));
-        ivPic2.setImageBitmap(AssetsUtils.getBitmap(getContext(), "pic/1.2.jpg"));
-        ivPic3.setImageBitmap(AssetsUtils.getBitmap(getContext(), "pic/1.3.jpg"));
-        ivPic4.setImageBitmap(AssetsUtils.getBitmap(getContext(), "pic/1.4.jpg"));
+    public void showQuiz(QuizItem quizItem) {
+        tvGuide.setText(R.string.quiz_message_guide);
+        ivPic1.setImageBitmap(AssetsUtils.getBitmap(getContext(), quizItem.getPicNames()[0]));
+        ivPic2.setImageBitmap(AssetsUtils.getBitmap(getContext(), quizItem.getPicNames()[1]));
+        ivPic3.setImageBitmap(AssetsUtils.getBitmap(getContext(), quizItem.getPicNames()[2]));
+        ivPic4.setImageBitmap(AssetsUtils.getBitmap(getContext(), quizItem.getPicNames()[3]));
 
         Point point = new Point();
         parentActivity.getWindowManager().getDefaultDisplay().getSize(point);
@@ -154,6 +164,15 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     @Override
     public void showStats(int score, int life) {
         parentActivity.getSupportActionBar().setTitle(getString(R.string.title_score, score));
-        parentActivity.getSupportActionBar().setSubtitle(getString(R.string.title_score, life));
+        parentActivity.getSupportActionBar().setSubtitle(getString(R.string.title_life, life));
+    }
+
+    @Override
+    public void showIsCorrect(boolean isCorrect) {
+        if (isCorrect) {
+            presenter.nextQuiz();
+        } else {
+            tvGuide.setText(R.string.quiz_message_wrong);
+        }
     }
 }
