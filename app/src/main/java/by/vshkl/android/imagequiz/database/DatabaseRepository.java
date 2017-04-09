@@ -68,9 +68,11 @@ public class DatabaseRepository {
             @Override
             public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
                 ScoreEntity scoreEntity = ScoreMapper.transform(score);
+                boolean result = false;
                 if (scoreEntity != null) {
-                    scoreEntity.save();
+                    result = scoreEntity.save();
                 }
+                emitter.onNext(result);
             }
         });
     }

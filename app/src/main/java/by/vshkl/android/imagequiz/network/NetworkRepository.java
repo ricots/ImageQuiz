@@ -87,7 +87,7 @@ public class NetworkRepository {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.getValue() != null) {
                             Score remoteScore = dataSnapshot.getValue(Score.class);
-                            if (remoteScore.getScore() < score.getScore()) {
+                            if (remoteScore.getScore() <= score.getScore()) {
                                 scorePlayerRef.setValue(score);
                             }
                         } else {

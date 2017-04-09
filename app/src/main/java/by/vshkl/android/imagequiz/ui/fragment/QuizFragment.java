@@ -111,7 +111,6 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_rating:
-                presenter.saveScoreLocal();
                 parentActivity.getPresenter().showRating();
                 return true;
             case R.id.action_change_player:
@@ -130,9 +129,8 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
     @Override
     public void onPause() {
-        rewardedVideoAd.pause(getContext());
-        presenter.saveScoreLocal();
         presenter.onPause();
+        rewardedVideoAd.pause(getContext());
         super.onPause();
     }
 

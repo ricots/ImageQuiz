@@ -124,9 +124,7 @@ public class QuizPresenter extends BasePresenter<QuizView> {
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(@NonNull Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            saveScore();
-                        }
+                        saveScore();
                     }
                 }));
     }
