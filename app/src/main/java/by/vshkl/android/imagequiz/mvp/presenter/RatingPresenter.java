@@ -15,7 +15,7 @@ import io.reactivex.functions.Consumer;
 public class RatingPresenter extends BasePresenter<RatingView> {
 
     public void loadRating() {
-        setDisposable(DatabaseRepository.loadScore()
+        setDisposable(DatabaseRepository.loadScores()
                 .compose(RxUtils.<List<Score>>applySchedulers())
                 .subscribe(new Consumer<List<Score>>() {
                     @Override

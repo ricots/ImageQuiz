@@ -25,7 +25,7 @@ public class NetworkRepository {
             public void subscribe(final ObservableEmitter<List<Quiz>> emitter) throws Exception {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference configRef = database.getReference("quiz");
-                
+
                 configRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -41,7 +41,32 @@ public class NetworkRepository {
 
                     }
                 });
+            }
+        });
+    }
 
+    public static Observable<List<Score>> getScores() {
+        return Observable.create(new ObservableOnSubscribe<List<Score>>() {
+            @Override
+            public void subscribe(final ObservableEmitter<List<Score>> emitter) throws Exception {
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                final DatabaseReference configRef = database.getReference("score");
+
+                configRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        List<Score> scores = new ArrayList<>();
+                        for (DataSnapshot quizSnapshot : dataSnapshot.getChildren()) {
+                            scores.add(quizSnapshot.getValue(Score.class));
+                        }
+                        emitter.onNext(scores);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
     }

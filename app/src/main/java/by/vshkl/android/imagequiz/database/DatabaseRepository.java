@@ -83,7 +83,33 @@ public class DatabaseRepository {
         });
     }
 
-    public static Observable<List<Score>> loadScore() {
+    public static Observable<Boolean> saveScores(final List<Score> scores) {
+        return Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(final ObservableEmitter<Boolean> emitter) throws Exception {
+                FlowManager.getDatabase(AppDatabase.class).beginTransactionAsync(new ITransaction() {
+                    @Override
+                    public void execute(DatabaseWrapper databaseWrapper) {
+                        for (Score score : scores) {
+                            ScoreMapper.transform(score).save(databaseWrapper);
+                        }
+                    }
+                }).success(new Transaction.Success() {
+                    @Override
+                    public void onSuccess(Transaction transaction) {
+                        emitter.onNext(true);
+                    }
+                }).error(new Transaction.Error() {
+                    @Override
+                    public void onError(Transaction transaction, Throwable error) {
+                        emitter.onNext(false);
+                    }
+                }).build().execute();
+            }
+        });
+    }
+
+    public static Observable<List<Score>> loadScores() {
         return Observable.create(new ObservableOnSubscribe<List<Score>>() {
             @Override
             public void subscribe(ObservableEmitter<List<Score>> emitter) throws Exception {
