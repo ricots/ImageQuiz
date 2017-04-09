@@ -32,6 +32,7 @@
         android:id="@+id/gl_images"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         app:columnCount="2"
         app:orientation="horizontal"
         app:rowCount="2"
