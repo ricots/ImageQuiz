@@ -28,6 +28,7 @@ import by.vshkl.android.imagequiz.mvp.presenter.QuizPresenter;
 import by.vshkl.android.imagequiz.mvp.view.QuizView;
 import by.vshkl.android.imagequiz.ui.activity.MainActivity;
 import by.vshkl.android.imagequiz.utils.AssetsUtils;
+import by.vshkl.android.imagequiz.utils.PrefUtils;
 
 public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnClickListener {
 
@@ -85,7 +86,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
         parentActivity.setSupportActionBar(tbToolbar);
 
-        presenter.loadQuizItems();
+        presenter.beginQuiz(PrefUtils.getName(getContext()));
     }
 
     @Override
@@ -103,6 +104,12 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onPause() {
+        presenter.onPause();
+        super.onPause();
     }
 
     @Override

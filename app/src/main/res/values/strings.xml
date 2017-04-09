@@ -16,6 +16,7 @@
     <string name="message_empty">Нажмите, чтобы загрузить задания.</string>
     <string name="message_downloading">Подождите, пока задания загрузятся.</string>
 
-    <string name="pref_logged_name">pref_logged_name</string>
+    <string name="pref_logged">pref_logged</string>
+    <string name="pref_name">pref_name</string>
 
 </resources>

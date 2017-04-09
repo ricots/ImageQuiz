@@ -6,8 +6,10 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.util.Collections;
 import java.util.List;
 
+import by.vshkl.android.imagequiz.constants.GameState;
 import by.vshkl.android.imagequiz.database.DatabaseRepository;
 import by.vshkl.android.imagequiz.mvp.model.QuizItem;
+import by.vshkl.android.imagequiz.mvp.model.Score;
 import by.vshkl.android.imagequiz.mvp.view.QuizView;
 import by.vshkl.android.imagequiz.utils.RxUtils;
 import io.reactivex.annotations.NonNull;
@@ -19,9 +21,14 @@ public class QuizPresenter extends MvpPresenter<QuizView> {
 
     private Disposable disposable;
     private List<QuizItem> quizItems;
+    private Score score;
     private int currentQuiz;
     private int life;
-    private int score;
+    private int scoreN;
+
+    public void onPause() {
+        saveScore();
+    }
 
     public void onStop() {
         if (disposable != null && !disposable.isDisposed()) {
@@ -29,14 +36,14 @@ public class QuizPresenter extends MvpPresenter<QuizView> {
         }
     }
 
-    public void loadQuizItems() {
-        disposable = DatabaseRepository.loadQuizItems()
-                .compose(RxUtils.<List<QuizItem>>applySchedulers())
-                .subscribe(new Consumer<List<QuizItem>>() {
+    public void beginQuiz(String name) {
+        disposable = DatabaseRepository.loadScore(name)
+                .compose(RxUtils.<Score>applySchedulers())
+                .subscribe(new Consumer<Score>() {
                     @Override
-                    public void accept(@NonNull List<QuizItem> quizItemsList) throws Exception {
-                        quizItems = quizItemsList;
-                        startQuizClean();
+                    public void accept(@NonNull Score scoreResult) throws Exception {
+                        score = scoreResult;
+                        loadQuizItems();
                     }
                 });
     }
@@ -58,32 +65,59 @@ public class QuizPresenter extends MvpPresenter<QuizView> {
             scoreDown();
         }
         if (life > 0) {
-            getViewState().showStats(life, score);
+            getViewState().showStats(score.getScore(), score.getLife());
         } else {
-            startQuizClean();
+            startQuiz();
         }
     }
 
-    private void startQuizClean() {
-        life = 10;  //TODO: Replace with database value for current player
-        score = 0;  //TODO: Replace with database value for current player
-        startQuiz();
+    private void loadQuizItems() {
+        disposable = DatabaseRepository.loadQuizItems()
+                .compose(RxUtils.<List<QuizItem>>applySchedulers())
+                .subscribe(new Consumer<List<QuizItem>>() {
+                    @Override
+                    public void accept(@NonNull List<QuizItem> quizItemsResult) throws Exception {
+                        quizItems = quizItemsResult;
+                        startQuiz();
+                    }
+                });
     }
 
     private void startQuiz() {
         Collections.shuffle(quizItems);
         currentQuiz = 0;
+        getViewState().showStats(score.getScore(), score.getLife());
         nextQuiz();
     }
 
     private void scoreDown() {
-        if (score > 0) {
-            score -= 50;
+        switch (score.scoreDown()) {
+            case GameState.OK:
+                nextQuiz();
+                break;
+            case GameState.ZERO_LIFE:
+//                saveScore();
+                startQuiz();    //TODO: Replace with action
+                break;
+            case GameState.NEGATIVE_SCORE:
+//                saveScore();
+                startQuiz();    //TODO: Replace with action
+                break;
         }
-        life--;
     }
 
     private void scoreUp() {
-        score += 150;
+        score.scoreUp();
+    }
+
+    private void saveScore() {
+        disposable = DatabaseRepository.saveScore(score)
+                .compose(RxUtils.<Boolean>applySchedulers())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(@NonNull Boolean aBoolean) throws Exception {
+
+                    }
+                });
     }
 }

@@ -1,5 +1,7 @@
 package by.vshkl.android.imagequiz.mvp.model;
 
+import by.vshkl.android.imagequiz.constants.GameState;
+
 public class Score {
 
     private long id;
@@ -8,6 +10,13 @@ public class Score {
     int life;
 
     public Score() {
+    }
+
+    public Score(String name) {
+        this.id = System.currentTimeMillis();
+        this.name = name;
+        this.score = 0;
+        this.life = 10;
     }
 
     public long getId() {
@@ -40,6 +49,25 @@ public class Score {
 
     public void setLife(int life) {
         this.life = life;
+    }
+
+    public void scoreUp() {
+        score += 150;
+    }
+
+    public
+    @GameState
+    int scoreDown() {
+        if (score == 0) {
+            return GameState.NEGATIVE_SCORE;
+        } else if (life == 1) {
+            life--;
+            return GameState.ZERO_LIFE;
+        } else {
+            score -= 50;
+            life--;
+            return GameState.OK;
+        }
     }
 
     @Override

@@ -9,7 +9,7 @@ import by.vshkl.android.imagequiz.R;
 import by.vshkl.android.imagequiz.mvp.presenter.MainPresenter;
 import by.vshkl.android.imagequiz.mvp.view.MainView;
 import by.vshkl.android.imagequiz.utils.Navigator;
-import by.vshkl.android.imagequiz.utils.SharedPrefUtils;
+import by.vshkl.android.imagequiz.utils.PrefUtils;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView {
 
@@ -31,7 +31,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     @Override
     public void checkLogged() {
-        if (SharedPrefUtils.getLogged(getApplicationContext())) {
+        if (PrefUtils.getLogged(getApplicationContext())) {
             presenter.showQuiz();
         } else {
             presenter.showInit();
