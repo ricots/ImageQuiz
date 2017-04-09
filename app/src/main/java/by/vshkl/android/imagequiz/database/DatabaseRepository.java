@@ -1,5 +1,6 @@
 package by.vshkl.android.imagequiz.database;
 
+import com.raizlabs.android.dbflow.sql.language.OrderBy;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.Collections;
@@ -64,6 +65,17 @@ public class DatabaseRepository {
                 Score score = ScoreEntityMapper.transform(SQLite.select().from(ScoreEntity.class)
                         .where(ScoreEntity_Table.name.eq(name)).querySingle());
                 emitter.onNext(score != null ? score : new Score(name));
+            }
+        });
+    }
+
+    public static Observable<List<Score>> loadScore() {
+        return Observable.create(new ObservableOnSubscribe<List<Score>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<Score>> emitter) throws Exception {
+                List<Score> scores = ScoreEntityMapper.transform(SQLite.select().from(ScoreEntity.class)
+                        .orderBy(OrderBy.fromProperty(ScoreEntity_Table.score)).limit(30).queryList());
+                emitter.onNext(scores != null ? scores : Collections.<Score>emptyList());
             }
         });
     }

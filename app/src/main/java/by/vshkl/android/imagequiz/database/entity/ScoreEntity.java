@@ -1,8 +1,10 @@
 package by.vshkl.android.imagequiz.database.entity;
 
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ConflictAction;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.annotation.Unique;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import by.vshkl.android.imagequiz.database.AppDatabase;
@@ -11,7 +13,7 @@ import by.vshkl.android.imagequiz.database.AppDatabase;
 public class ScoreEntity extends BaseModel {
 
     @PrimaryKey private long id;
-    @Column String name;
+    @Column @Unique(onUniqueConflict = ConflictAction.REPLACE) String name;
     @Column int score;
     @Column int life;
 

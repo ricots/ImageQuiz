@@ -1,39 +1,27 @@
 package by.vshkl.android.imagequiz.mvp.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.Collections;
 import java.util.List;
 
-import by.vshkl.android.imagequiz.constants.GameState;
 import by.vshkl.android.imagequiz.database.DatabaseRepository;
 import by.vshkl.android.imagequiz.mvp.model.QuizItem;
 import by.vshkl.android.imagequiz.mvp.model.Score;
 import by.vshkl.android.imagequiz.mvp.view.QuizView;
 import by.vshkl.android.imagequiz.utils.RxUtils;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 @InjectViewState
-public class QuizPresenter extends MvpPresenter<QuizView> {
+public class QuizPresenter extends BasePresenter<QuizView> {
 
-    private Disposable disposable;
     private List<QuizItem> quizItems;
     private Score score;
     private int currentQuiz;
-    private int life;
-    private int scoreN;
 
     public void onPause() {
         saveScore();
-    }
-
-    public void onStop() {
-        if (disposable != null && !disposable.isDisposed()) {
-            disposable.dispose();
-        }
     }
 
     public void changePlayer() {
@@ -46,7 +34,7 @@ public class QuizPresenter extends MvpPresenter<QuizView> {
     }
 
     public void beginQuiz(String name) {
-        disposable = DatabaseRepository.loadScore(name)
+        setDisposable(DatabaseRepository.loadScore(name)
                 .compose(RxUtils.<Score>applySchedulers())
                 .subscribe(new Consumer<Score>() {
                     @Override
@@ -54,7 +42,7 @@ public class QuizPresenter extends MvpPresenter<QuizView> {
                         score = scoreResult;
                         loadQuizItems();
                     }
-                });
+                }));
     }
 
     public void nextQuiz() {
@@ -84,8 +72,19 @@ public class QuizPresenter extends MvpPresenter<QuizView> {
         }
     }
 
+    public void saveScore() {
+        setDisposable(DatabaseRepository.saveScore(score)
+                .compose(RxUtils.<Boolean>applySchedulers())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(@NonNull Boolean aBoolean) throws Exception {
+
+                    }
+                }));
+    }
+
     private void loadQuizItems() {
-        disposable = DatabaseRepository.loadQuizItems()
+        setDisposable(DatabaseRepository.loadQuizItems()
                 .compose(RxUtils.<List<QuizItem>>applySchedulers())
                 .subscribe(new Consumer<List<QuizItem>>() {
                     @Override
@@ -93,7 +92,7 @@ public class QuizPresenter extends MvpPresenter<QuizView> {
                         quizItems = quizItemsResult;
                         startQuiz();
                     }
-                });
+                }));
     }
 
     private void startQuiz() {
@@ -111,16 +110,5 @@ public class QuizPresenter extends MvpPresenter<QuizView> {
 
     private void scoreUp() {
         score.scoreUp();
-    }
-
-    private void saveScore() {
-        disposable = DatabaseRepository.saveScore(score)
-                .compose(RxUtils.<Boolean>applySchedulers())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(@NonNull Boolean aBoolean) throws Exception {
-
-                    }
-                });
     }
 }

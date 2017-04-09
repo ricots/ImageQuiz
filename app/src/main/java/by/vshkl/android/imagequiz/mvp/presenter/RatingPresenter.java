@@ -1,19 +1,27 @@
 package by.vshkl.android.imagequiz.mvp.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
 
+import java.util.List;
+
+import by.vshkl.android.imagequiz.database.DatabaseRepository;
+import by.vshkl.android.imagequiz.mvp.model.Score;
 import by.vshkl.android.imagequiz.mvp.view.RatingView;
-import io.reactivex.disposables.Disposable;
+import by.vshkl.android.imagequiz.utils.RxUtils;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 @InjectViewState
-public class RatingPresenter extends MvpPresenter<RatingView> {
+public class RatingPresenter extends BasePresenter<RatingView> {
 
-    private Disposable disposable;
-
-    public void onStop() {
-        if (disposable != null && !disposable.isDisposed()) {
-            disposable.dispose();
-        }
+    public void loadRating() {
+        setDisposable(DatabaseRepository.loadScore()
+                .compose(RxUtils.<List<Score>>applySchedulers())
+                .subscribe(new Consumer<List<Score>>() {
+                    @Override
+                    public void accept(@NonNull List<Score> scores) throws Exception {
+                        getViewState().showRating(scores);
+                    }
+                }));
     }
 }
