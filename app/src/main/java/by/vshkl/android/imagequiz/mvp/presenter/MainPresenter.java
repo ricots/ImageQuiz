@@ -17,6 +17,14 @@ public class MainPresenter extends MvpPresenter<MainView> {
         }
     }
 
+    public void checkLogged() {
+        getViewState().checkLogged();
+    }
+
+    public void showInit() {
+        getViewState().showInit();
+    }
+
     public void showQuiz() {
         getViewState().showQuiz();
     }

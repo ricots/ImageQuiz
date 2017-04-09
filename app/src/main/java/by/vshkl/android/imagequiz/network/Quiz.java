@@ -1,18 +1,10 @@
-package by.vshkl.android.imagequiz.mvp.model;
+package by.vshkl.android.imagequiz.network;
 
-import java.util.Arrays;
-
-import by.vshkl.android.imagequiz.utils.FIleNameUtils;
-
-public class QuizItem {
+public class Quiz {
 
     private int id;
-    private String[] picNames;
     private int correct;
     private String correctDescription;
-
-    public QuizItem() {
-    }
 
     public int getId() {
         return id;
@@ -20,15 +12,6 @@ public class QuizItem {
 
     public void setId(int id) {
         this.id = id;
-        this.picNames = FIleNameUtils.getFileNames(id);
-    }
-
-    public String[] getPicNames() {
-        return picNames;
-    }
-
-    public void setPicNames(String[] picNames) {
-        this.picNames = picNames;
     }
 
     public int getCorrect() {
@@ -52,13 +35,13 @@ public class QuizItem {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof QuizItem)) {
+        if (!(o instanceof Quiz)) {
             return false;
         }
 
-        QuizItem quizItem = (QuizItem) o;
+        Quiz quiz = (Quiz) o;
 
-        return getId() == quizItem.getId();
+        return getId() == quiz.getId();
     }
 
     @Override
@@ -68,9 +51,8 @@ public class QuizItem {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("QuizItem{");
+        final StringBuilder sb = new StringBuilder("Quiz{");
         sb.append("id=").append(id);
-        sb.append(", picNames=").append(Arrays.deepToString(picNames));
         sb.append(", correct=").append(correct);
         sb.append(", correctDescription='").append(correctDescription).append('\'');
         sb.append('}');

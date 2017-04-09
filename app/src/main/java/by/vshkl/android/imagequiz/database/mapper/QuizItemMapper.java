@@ -15,7 +15,6 @@ public class QuizItemMapper {
         if (quizItem != null) {
             quizItemEntity = new QuizItemEntity();
             quizItemEntity.setId(quizItem.getId());
-            quizItemEntity.setPicNames(quizItem.getPicNames());
             quizItemEntity.setCorrect(quizItem.getCorrect());
             quizItemEntity.setCorrectDescription(quizItem.getCorrectDescription());
         }
@@ -28,13 +27,13 @@ public class QuizItemMapper {
             return Collections.emptyList();
         }
 
-        List<QuizItemEntity> quizItemEntities = new ArrayList<>(quizItems.size());
+        List<QuizItemEntity> scoreEntities = new ArrayList<>(quizItems.size());
         for (QuizItem quizItem : quizItems) {
             if (quizItem != null) {
-                quizItemEntities.add(transform(quizItem));
+                scoreEntities.add(transform(quizItem));
             }
         }
 
-        return quizItemEntities;
+        return scoreEntities;
     }
 }

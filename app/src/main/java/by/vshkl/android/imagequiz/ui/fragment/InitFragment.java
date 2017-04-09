@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,8 +20,9 @@ import by.vshkl.android.imagequiz.R;
 import by.vshkl.android.imagequiz.mvp.presenter.InitPresenter;
 import by.vshkl.android.imagequiz.mvp.view.InitView;
 import by.vshkl.android.imagequiz.ui.activity.MainActivity;
+import by.vshkl.android.imagequiz.utils.SharedPrefUtils;
 
-public class InitFragment extends MvpAppCompatFragment implements InitView {
+public class InitFragment extends MvpAppCompatFragment implements InitView, OnClickListener {
 
     @InjectPresenter InitPresenter presenter;
 
@@ -28,6 +30,7 @@ public class InitFragment extends MvpAppCompatFragment implements InitView {
     private EditText etName;
     private LinearLayout llEmpty;
     private LinearLayout llProgress;
+    private LinearLayout llStart;
     private Button btnStart;
 
     private MainActivity parentActivity;
@@ -57,7 +60,12 @@ public class InitFragment extends MvpAppCompatFragment implements InitView {
         etName = (EditText) view.findViewById(R.id.et_name);
         llEmpty = (LinearLayout) view.findViewById(R.id.ll_empty);
         llProgress = (LinearLayout) view.findViewById(R.id.ll_progress);
+        llStart = (LinearLayout) view.findViewById(R.id.ll_start);
         btnStart = (Button) view.findViewById(R.id.btn_start);
+
+        llEmpty.setOnClickListener(this);
+        btnStart.setOnClickListener(this);
+
         parentActivity.setSupportActionBar(tbToolbar);
     }
 
@@ -71,5 +79,50 @@ public class InitFragment extends MvpAppCompatFragment implements InitView {
     public void onDetach() {
         this.parentActivity = null;
         super.onDetach();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_empty:
+                presenter.downloadQuiz();
+                break;
+            case R.id.btn_start:
+                presenter.startQuiz();
+                break;
+        }
+    }
+
+    @Override
+    public void showEmpty() {
+        llProgress.setVisibility(View.GONE);
+        llStart.setVisibility(View.GONE);
+        llEmpty.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showProgress() {
+        llStart.setVisibility(View.GONE);
+        llEmpty.setVisibility(View.GONE);
+        llProgress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showStart() {
+        llEmpty.setVisibility(View.GONE);
+        llProgress.setVisibility(View.GONE);
+        llStart.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showQuiz() {
+        String name = etName.getText().toString();
+
+        if (name == null && name.isEmpty()) {
+            //TODO: Show alert
+        } else {
+            SharedPrefUtils.setLogged(getContext(), true);
+            parentActivity.getPresenter().showQuiz();
+        }
     }
 }

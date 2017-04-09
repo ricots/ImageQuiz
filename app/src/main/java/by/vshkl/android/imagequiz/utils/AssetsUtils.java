@@ -47,7 +47,7 @@ public class AssetsUtils {
             try {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
-                    lines.add(new QuizItem(line));
+//                    lines.add(new QuizItem(line));
                 }
             } catch (IOException e) {
                 e.printStackTrace();

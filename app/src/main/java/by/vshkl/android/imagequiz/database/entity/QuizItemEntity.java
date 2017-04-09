@@ -5,15 +5,12 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import java.util.Arrays;
-
 import by.vshkl.android.imagequiz.database.AppDatabase;
 
 @Table(database = AppDatabase.class, name = "QuizItems")
 public class QuizItemEntity extends BaseModel {
 
     @PrimaryKey private int id;
-    @Column private String[] picNames;
     @Column private int correct;
     @Column private String correctDescription;
 
@@ -26,14 +23,6 @@ public class QuizItemEntity extends BaseModel {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String[] getPicNames() {
-        return picNames;
-    }
-
-    public void setPicNames(String[] picNames) {
-        this.picNames = picNames;
     }
 
     public int getCorrect() {
@@ -75,7 +64,6 @@ public class QuizItemEntity extends BaseModel {
     public String toString() {
         final StringBuilder sb = new StringBuilder("QuizItemEntity{");
         sb.append("id=").append(id);
-        sb.append(", picNames=").append(Arrays.toString(picNames));
         sb.append(", correct=").append(correct);
         sb.append(", correctDescription='").append(correctDescription).append('\'');
         sb.append('}');

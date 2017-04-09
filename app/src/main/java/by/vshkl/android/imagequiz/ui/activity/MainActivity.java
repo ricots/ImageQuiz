@@ -9,6 +9,7 @@ import by.vshkl.android.imagequiz.R;
 import by.vshkl.android.imagequiz.mvp.presenter.MainPresenter;
 import by.vshkl.android.imagequiz.mvp.view.MainView;
 import by.vshkl.android.imagequiz.utils.Navigator;
+import by.vshkl.android.imagequiz.utils.SharedPrefUtils;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView {
 
@@ -19,13 +20,27 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter.showQuiz();
+        presenter.checkLogged();
     }
 
     @Override
     protected void onStop() {
         presenter.onStop();
         super.onStop();
+    }
+
+    @Override
+    public void checkLogged() {
+        if (SharedPrefUtils.getLogged(getApplicationContext())) {
+            presenter.showQuiz();
+        } else {
+            presenter.showInit();
+        }
+    }
+
+    @Override
+    public void showInit() {
+        Navigator.showInit(MainActivity.this);
     }
 
     @Override
