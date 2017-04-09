@@ -8,5 +8,5 @@ import by.vshkl.android.imagequiz.mvp.model.Score;
 
 public interface RatingView extends MvpView {
 
-    void showRating(List<Score> scores);
+    void showRating(List<Score> scores, String scoreTitle);
 }

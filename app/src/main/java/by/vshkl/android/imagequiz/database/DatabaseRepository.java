@@ -114,7 +114,7 @@ public class DatabaseRepository {
             @Override
             public void subscribe(ObservableEmitter<List<Score>> emitter) throws Exception {
                 List<Score> scores = ScoreEntityMapper.transform(SQLite.select().from(ScoreEntity.class)
-                        .orderBy(OrderBy.fromProperty(ScoreEntity_Table.score)).limit(30).queryList());
+                        .orderBy(OrderBy.fromProperty(ScoreEntity_Table.score)).queryList());
                 emitter.onNext(scores != null ? scores : Collections.<Score>emptyList());
             }
         });

@@ -23,6 +23,7 @@ import by.vshkl.android.imagequiz.mvp.presenter.RatingPresenter;
 import by.vshkl.android.imagequiz.mvp.view.RatingView;
 import by.vshkl.android.imagequiz.ui.activity.MainActivity;
 import by.vshkl.android.imagequiz.ui.adapter.RatingAdapter;
+import by.vshkl.android.imagequiz.utils.PrefUtils;
 
 public class RatingFragment extends MvpAppCompatFragment implements RatingView {
 
@@ -65,7 +66,7 @@ public class RatingFragment extends MvpAppCompatFragment implements RatingView {
         rvList = (RecyclerView) view.findViewById(R.id.rv_rating);
         parentActivity.setSupportActionBar(tbToolbar);
         initializeRecyclerView();
-        presenter.loadRating();
+        presenter.loadRating(PrefUtils.getName(getContext()));
     }
 
     @Override
@@ -81,7 +82,8 @@ public class RatingFragment extends MvpAppCompatFragment implements RatingView {
     }
 
     @Override
-    public void showRating(List<Score> scores) {
+    public void showRating(List<Score> scores, String scoreTitle) {
+        parentActivity.getSupportActionBar().setTitle(scoreTitle);
         ratingAdapter.setScores(scores);
         ratingAdapter.notifyDataSetChanged();
     }
