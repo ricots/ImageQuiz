@@ -113,7 +113,7 @@ public class QuizFragment extends MvpAppCompatFragment implements QuizView, OnCl
 
     @Override
     public void onPause() {
-        presenter.saveScore();
+        presenter.saveScoreLocal();
         presenter.onPause();
         super.onPause();
     }

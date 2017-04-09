@@ -14,7 +14,7 @@ public class ScoreEntityMapper {
 
         if (scoreEntity != null) {
             score = new Score();
-            score.setId(scoreEntity.getLife());
+            score.setId(scoreEntity.getId());
             score.setName(scoreEntity.getName());
             score.setScore(scoreEntity.getScore());
             score.setLife(scoreEntity.getLife());

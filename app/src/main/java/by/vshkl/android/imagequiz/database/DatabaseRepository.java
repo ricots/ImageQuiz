@@ -14,9 +14,9 @@ import by.vshkl.android.imagequiz.database.entity.QuizItemEntity;
 import by.vshkl.android.imagequiz.database.entity.ScoreEntity;
 import by.vshkl.android.imagequiz.database.entity.ScoreEntity_Table;
 import by.vshkl.android.imagequiz.database.mapper.QuizMapper;
+import by.vshkl.android.imagequiz.database.mapper.ScoreMapper;
 import by.vshkl.android.imagequiz.mvp.mapper.QuizItemEntityMapper;
 import by.vshkl.android.imagequiz.mvp.mapper.ScoreEntityMapper;
-import by.vshkl.android.imagequiz.database.mapper.ScoreMapper;
 import by.vshkl.android.imagequiz.mvp.model.QuizItem;
 import by.vshkl.android.imagequiz.mvp.model.Score;
 import by.vshkl.android.imagequiz.network.model.Quiz;
@@ -47,7 +47,7 @@ public class DatabaseRepository {
                     public void onError(Transaction transaction, Throwable error) {
                         emitter.onNext(false);
                     }
-                });
+                }).build().execute();
             }
         });
     }

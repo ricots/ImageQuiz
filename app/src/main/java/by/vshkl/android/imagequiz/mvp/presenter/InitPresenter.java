@@ -45,8 +45,10 @@ public class InitPresenter extends BasePresenter<InitView> {
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(@NonNull Boolean aBoolean) throws Exception {
-                        getViewState().quizDownloaded();
-                        getViewState().showStart();
+                        if (aBoolean) {
+                            getViewState().quizDownloaded();
+                            getViewState().showStart();
+                        }
                     }
                 }));
     }

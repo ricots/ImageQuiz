@@ -10,6 +10,7 @@ import by.vshkl.android.imagequiz.database.DatabaseRepository;
 import by.vshkl.android.imagequiz.mvp.model.QuizItem;
 import by.vshkl.android.imagequiz.mvp.model.Score;
 import by.vshkl.android.imagequiz.mvp.view.QuizView;
+import by.vshkl.android.imagequiz.network.NetworkRepository;
 import by.vshkl.android.imagequiz.utils.RxUtils;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -22,7 +23,7 @@ public class QuizPresenter extends BasePresenter<QuizView> {
     private int currentQuiz;
 
     public void onPause() {
-        saveScore();
+        saveScoreLocal();
     }
 
     public void changePlayer() {
@@ -90,8 +91,21 @@ public class QuizPresenter extends BasePresenter<QuizView> {
         }
     }
 
-    public void saveScore() {
+    public void saveScoreLocal() {
         setDisposable(DatabaseRepository.saveScore(score)
+                .compose(RxUtils.<Boolean>applySchedulers())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(@NonNull Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            saveScore();
+                        }
+                    }
+                }));
+    }
+
+    private void saveScore() {
+        setDisposable(NetworkRepository.saveScore(score)
                 .compose(RxUtils.<Boolean>applySchedulers())
                 .subscribe(new Consumer<Boolean>() {
                     @Override
